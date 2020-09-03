@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Catching Bytes!</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Bungee+Inline"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- import the webpage's javascript file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.22.0/phaser.min.js"></script>
+  </head>
+
+  <body>
+    <div class="horizontal-center">
+      <img
+        src="https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fbgc-brand-logo.png?v=1587683794227"
+        class="bgc-logo"
+      />
+    </div>
+
+    <h1 class="center-text">Catching Bytes!</h1>
+    <section class="container">
+      <div id="game"></div>
+    </section>
+
+    <section id="instructions">
+      <h2>
+        How to Play:
+      </h2>
+      <p>
+        Welcome to Catching Bytes! Help Kiki catch all the bytes before all of
+        the Bugs come and take over the motherboard. If Kiki gets caught by the
+        Bugs it is gameover for the motherboard.
+      </p>
+      <div class="horizontal-center" style="margin-left: 120px !important;">
+        <img
+          src="https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2FDirections.png?v=1587683802904"
+        />
+      </div>
+    </section>
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+  <script>
+    const gameConfig = {
+      type: Phaser.CANVAS,
+      width: 800,
+      height: 600,
+      parent: "game",
+      physics: {
+        default: "arcade",
+        arcade: {
+          gravity: { y: 300 },
+          debug: false
+        }
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      }
+    };
+
+    var player;
+    var bytes;
+    var bugs;
+    var platforms;
+    var cursors;
+    var score = 0;
+    var gameOver = false;
+    var scoreText;
+
+    const game = new Phaser.Game(gameConfig);
+
+    function preload() {
+      this.load.image(
+        "circuit",
+        "https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fcircuit.png?v=1587252159188" // Add preloaded Images
+      );
+      this.load.image(
+        "plane",
+        "https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fplane.png?v=1587252153509" // Add preloaded Images
+      );
+      this.load.image(
+        "bytes",
+        "https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fbytes.png?v=1587252144643" // Add preloaded Images
+      );
+      this.load.image(
+        "bug",
+        "https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fmalware.png?v=1587252139918" // Add preloaded Images
+      );
+
+      this.load.spritesheet("kiki", "https://cdn.glitch.com/268b2099-bcb3-4ee8-a03b-387154e10385%2Fkiki.png?v=1587252134097", {
+        // Add preloaded Images
+        frameWidth: 32,
+        frameHeight: 48
+      });
+    }
+
+    function create() {
+      /*
+       ____  __     ___  ______  ____   ___   ____  ___  ___
+       || \\ ||    // \\ | || | ||     // \\  || \\ ||\\//||
+       ||_// ||    ||=||   ||   ||==  ((   )) ||_// || \/ ||
+       ||    ||__| || ||   ||   ||     \\_//  || \\ ||    ||
+
+      */
+      // ADD PLATFORM CODE BELOW HERE
+
+
+
+      /*
+       ____  __     ___  _  _  ____ ____
+       || \\ ||    // \\ \\// ||    || \\
+       ||_// ||    ||=||  )/  ||==  ||_//
+       ||    ||__| || || //   ||___ || \\
+
+      */
+      // ADD PLAYER CODE BELOW HERE
+
+
+
+
+
+
+      /*
+       ____  ____   ____    ___   ___   ____    ____
+       || \\ || \\ ||      //    // \\  || \\  ||
+       ||_// ||_// ||==   ((    ((   )) ||  )) ||==
+       ||    || \\ ||___   \\__  \\_//  ||_//  ||___
+
+      */
+      // DO NOT DELETE
+      cursors = this.input.keyboard.createCursorKeys();
+
+      this.physics.add.collider(player, platforms);
+      scoreText = this.add.text(16, 16, "score: 0", {
+        fontSize: "32px",
+        fill: "#000"
+      });
+
+      /*
+       ____  __ __ __     ____  __
+       || \\ || || ||    ||    (( \
+       ||_// || || ||    ||==   \\
+       || \\ \\_// ||__| ||___ \_))
+
+      */
+      //  ADD RULES CODE BELOW HERE
+
+      /*
+       ____  ____   ____    ___   ___   ____    ____
+       || \\ || \\ ||      //    // \\  || \\  ||
+       ||_// ||_// ||==   ((    ((   )) ||  )) ||==
+       ||    || \\ ||___   \\__  \\_//  ||_//  ||___
+
+      */
+      // DO NOT DELETE
+
+      bugs = this.physics.add.group();
+      this.physics.add.collider(bugs, platforms);
+      this.physics.add.collider(player, bugs, hitBug, null, this);
+    }
+
+    function update() {
+      /*
+       ___  ___   ___   __ __  ____ ___  ___  ____ __  __ ______
+       ||\\//||  // \\  || || ||    ||\\//|| ||    ||\ || | || |
+       || \/ || ((   )) \\ // ||==  || \/ || ||==  ||\\||   ||
+       ||    ||  \\_//   \V/  ||___ ||    || ||___ || \||   ||
+      */
+      // ADD MOVEMENT CODE BELOW HERE
+    }
+
+    function collectBytes(player, byte) {
+      byte.disableBody(true, true);
+
+      /*
+        __    ___   ___   ____   ____
+       (( \  //    // \\  || \\ ||
+        \\  ((    ((   )) ||_// ||==
+       \_))  \\__  \\_//  || \\ ||___
+
+      */
+      // ADD SCORE CODE BELOW HERE
+
+      /*
+       ____  __ __   ___   __
+       || )) || ||  // \\ (( \
+       ||=)  || || (( ___  \\
+       ||_)) \\_//  \\_|| \_))
+      */
+      // ADD BUGS CODE BELOW HERE
+    }
+
+    function hitBug() {
+      this.physics.pause();
+
+      player.setTint(0xff0000);
+
+      player.anims.play("turn");
+
+      gameOver = true;
+    }
+  </script>
+</html>
